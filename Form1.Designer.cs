@@ -44,6 +44,8 @@
             button_Clear = new Button();
             button_Noise = new Button();
             numericUpDown_Noise = new NumericUpDown();
+            label_HammingDistance = new Label();
+            label_Energy = new Label();
             panel_ImageTrain1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_ImageTrain1).BeginInit();
             panel_ImageTrain2.SuspendLayout();
@@ -212,11 +214,31 @@
             numericUpDown_Noise.TabIndex = 12;
             numericUpDown_Noise.Value = new decimal(new int[] { 1, 0, 0, 65536 });
             // 
+            // label_HammingDistance
+            // 
+            label_HammingDistance.AutoSize = true;
+            label_HammingDistance.Location = new Point(424, 276);
+            label_HammingDistance.Name = "label_HammingDistance";
+            label_HammingDistance.Size = new Size(112, 15);
+            label_HammingDistance.TabIndex = 13;
+            label_HammingDistance.Text = "Hamming Distance:";
+            // 
+            // label_Energy
+            // 
+            label_Energy.AutoSize = true;
+            label_Energy.Location = new Point(424, 291);
+            label_Energy.Name = "label_Energy";
+            label_Energy.Size = new Size(46, 15);
+            label_Energy.TabIndex = 14;
+            label_Energy.Text = "Energy:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(636, 488);
+            Controls.Add(label_Energy);
+            Controls.Add(label_HammingDistance);
             Controls.Add(numericUpDown_Noise);
             Controls.Add(button_Noise);
             Controls.Add(button_Clear);
@@ -241,6 +263,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox_ImageTest).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_Noise).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -261,5 +284,7 @@
         private Button button_Clear;
         private Button button_Noise;
         private NumericUpDown numericUpDown_Noise;
+        private Label label_HammingDistance;
+        private Label label_Energy;
     }
 }

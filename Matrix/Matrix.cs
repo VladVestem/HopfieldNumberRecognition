@@ -27,8 +27,9 @@ namespace HopfieldNumberRecognition
         }
         public Matrix(int[,] matrix)
         {
-            this.matrix = matrix;
             size = matrix.GetLength(0);
+            this.matrix = new int[size, size];
+            Array.Copy(matrix, this.matrix, size * size);
         }
         public Matrix(string type)
         {

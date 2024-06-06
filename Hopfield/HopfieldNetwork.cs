@@ -41,15 +41,13 @@ namespace HopfieldNumberRecognition
             int lines = matrix.GetMatrixLineOrHeight();
             int collumns = matrix.GetMatrixCollumnOrWidth();
             int[] flatInput = Matrix.FlattenMatrix(matrix);
-            int[] output = new int[size];
-            Array.Copy(flatInput, output, size);
 
-            bool hasChanged;
+            bool stateChanged;
             int iterations = 0;
 
             do
             {
-                hasChanged = false;
+                stateChanged = false;
                 iterations++;
 
                 for (int i = 0; i < size; i++)
@@ -57,19 +55,65 @@ namespace HopfieldNumberRecognition
                     int sum = 0;
                     for (int j = 0; j < size; j++)
                     {
-                        sum += weights[i, j] * output[j];
+                        sum += weights[i, j] * flatInput[j];
                     }
 
                     int newValue = sum >= 0 ? 1 : 0;
-                    if (output[i] != newValue)
+                    if (flatInput[i] != newValue)
                     {
-                        output[i] = newValue;
-                        hasChanged = true;
+                        flatInput[i] = newValue;
+                        stateChanged = true;
                     }
                 }
-            } while (hasChanged && iterations < maxIterations);
+            } while (stateChanged && iterations < maxIterations);
 
-            return Matrix.ReshapeArray(output, lines, collumns);
+            return Matrix.ReshapeArray(flatInput, lines, collumns);
+        }
+
+        public int CalculateHammingDistance(Matrix pattern1, Matrix pattern2)
+        {
+            if (
+                pattern1.GetMatrixLineOrHeight() != pattern2.GetMatrixLineOrHeight()
+                    ||
+                pattern1.GetMatrixCollumnOrWidth() != pattern2.GetMatrixCollumnOrWidth()
+            )
+            {
+                throw new ArgumentException("Patterns must have the same dimensions.");
+            }
+
+            int distance = 0;
+            int lines = pattern1.GetMatrixLineOrHeight();
+            int collumns = pattern1.GetMatrixCollumnOrWidth();
+
+            for (int line = 0; line < lines; line++)
+            {
+                for (int collumn = 0; collumn < collumns; collumn++)
+                {
+                    if (pattern1.GetValueAt(line, collumn) != pattern2.GetValueAt(line, collumn))
+                    {
+                        distance++;
+                    }
+                }
+            }
+
+            return distance;
+        }
+
+        public double CalculateEnergy(Matrix pattern)
+        {
+            int[] flatPattern = Matrix.FlattenMatrix(pattern);
+            int size = flatPattern.Length;
+            double energy = 0.0;
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    energy -= weights[i, j] * flatPattern[i] * flatPattern[j];
+                }
+            }
+
+            return 0.5 * energy;
         }
 
     }

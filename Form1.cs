@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace HopfieldNumberRecognition
@@ -197,9 +198,17 @@ namespace HopfieldNumberRecognition
                 MessageBox.Show("Train Hopfield Network first!", gAppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            Matrix origMatrix = new Matrix(gMatrixTest.GetMatrix());
+
             gMatrixTest = hopfieldNetwork.Predict(gMatrixTest);
             UpdatePictureBox(pictureBox_ImageTest, gMatrixTest);
             MessageBox.Show("Hopfield Network predict successful!", gAppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            int hammingDist = hopfieldNetwork.CalculateHammingDistance(origMatrix, gMatrixTest);
+            label_HammingDistance.Text = "Hamming Distance: " + hammingDist.ToString();
+
+            double energy = hopfieldNetwork.CalculateEnergy(gMatrixTest);
+            label_Energy.Text = "Energy: " + energy.ToString();
         }
         #endregion
     }
